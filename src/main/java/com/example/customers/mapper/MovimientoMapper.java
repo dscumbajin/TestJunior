@@ -1,9 +1,9 @@
 package com.example.customers.mapper;
 
-import com.example.customers.dto.CuentaDTO;
 import com.example.customers.dto.MovimientoDTO;
-import com.example.customers.entity.Cuenta;
+import com.example.customers.dto.ReporteDTO;
 import com.example.customers.entity.Movimiento;
+import com.example.customers.util.Conversion;
 
 public class MovimientoMapper {
 
@@ -17,5 +17,11 @@ public class MovimientoMapper {
         movimiento.setValor(movimientoDTO.getValor());
         movimiento.setSaldo(movimientoDTO.getSaldo());
         return movimiento;
+    }
+
+    public static ReporteDTO toReporteDTO(Movimiento movimiento) {
+        return new ReporteDTO(Conversion.convertDateToString(movimiento.getFecha()),movimiento.getCuenta().getCliente().getNombre(),movimiento.getCuenta().getNumero(),
+                movimiento.getCuenta().getTipoCuenta(), movimiento.getCuenta().getSaldoInicial(),
+                movimiento.getCuenta().isEstado(), movimiento.getValor(), movimiento.getSaldo());
     }
 }

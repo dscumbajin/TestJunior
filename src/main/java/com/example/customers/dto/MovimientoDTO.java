@@ -12,12 +12,9 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MovimientoDTO {
-    //private Date fecha;
     private String numero;
     private String tipo;
     private double saldo;
     private boolean estado;
     private String valor;
-
-
 }

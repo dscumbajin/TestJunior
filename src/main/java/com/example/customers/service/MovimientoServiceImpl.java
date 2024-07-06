@@ -1,22 +1,19 @@
 package com.example.customers.service;
 
-import com.example.customers.dto.CuentaDTO;
 import com.example.customers.dto.MovimientoDTO;
-import com.example.customers.entity.Cliente;
+import com.example.customers.dto.ReporteDTO;
 import com.example.customers.entity.Cuenta;
 import com.example.customers.entity.Movimiento;
-import com.example.customers.exception.ClienteNotFoundException;
 import com.example.customers.exception.CuentaNotFoundException;
-import com.example.customers.exception.CuentaYaExisteException;
 import com.example.customers.exception.MovimientoNotFoundException;
-import com.example.customers.mapper.CuentaMapper;
 import com.example.customers.mapper.MovimientoMapper;
-import com.example.customers.repository.ClienteRepository;
 import com.example.customers.repository.CuentaRepository;
 import com.example.customers.repository.MovimientoRepository;
+import com.example.customers.util.Conversion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -29,10 +26,7 @@ public class MovimientoServiceImpl implements IMoviminetoServiceImpl {
     private CuentaRepository cuentaRepository;
 
     @Autowired
-    private ClienteRepository clienteRepository;
-    @Autowired
     private MovimientoRepository movimientoRepository;
-
 
     @Override
     public Movimiento save(MovimientoDTO movimientoDTO) {
@@ -71,7 +65,7 @@ public class MovimientoServiceImpl implements IMoviminetoServiceImpl {
     public Movimiento update(Long id, MovimientoDTO movimientoDTO) {
         Optional<Movimiento> movimientoOptional = movimientoRepository.findById(id);
         if (movimientoOptional.isEmpty()) {
-            throw new CuentaNotFoundException("No existe el movimiento con el ID:  " + id);
+            throw new MovimientoNotFoundException("No existe el movimiento con el ID:  " + id);
         } else {
 
             Movimiento movimiento = movimientoOptional.get();
@@ -91,7 +85,7 @@ public class MovimientoServiceImpl implements IMoviminetoServiceImpl {
     public boolean delete(Long id) {
         Optional<Movimiento> movimientoOptional = movimientoRepository.findById(id);
         if (movimientoOptional.isEmpty()) {
-            throw new ClienteNotFoundException("Movimiento no encontrado con ID: " + id);
+            throw new MovimientoNotFoundException("Movimiento no encontrado con ID: " + id);
         } else {
             movimientoRepository.deleteById(id);
             return true;
@@ -109,8 +103,39 @@ public class MovimientoServiceImpl implements IMoviminetoServiceImpl {
     @Override
     public MovimientoDTO findById(Long id) {
         Movimiento movimiento = movimientoRepository.findById(id)
-                .orElseThrow(() -> new ClienteNotFoundException("No se encontro el movimiento con ID: " + id));
+                .orElseThrow(() -> new MovimientoNotFoundException("No se encontro el movimiento con ID: " + id));
         return MovimientoMapper.toMovimientoDTO(movimiento);
+    }
+
+    @Override
+    public List<MovimientoDTO> findByCuentaNumero(String numero) {
+        List<MovimientoDTO> movimientosDTO = new ArrayList<>();
+        List<Movimiento> movimientos = movimientoRepository.findByCuentaNumero(numero);
+                 if(!movimientos.isEmpty()){
+                     for (Movimiento movimiento : movimientos) {
+                         movimientosDTO.add(MovimientoMapper.toMovimientoDTO(movimiento));
+                     }
+                 }else {
+                     throw new MovimientoNotFoundException("No se encontro el movimientos con el numero de cuenta: " + numero);
+                 }
+        return movimientosDTO;
+    }
+
+    @Override
+    public List<ReporteDTO> findByCuentaNumeroAndFechaBetween(String numero, String fechaInicio, String fechaFin) {
+        Date inicioFecha = Conversion.convertStringToDate(fechaInicio);
+        Date finFecha = Conversion.convertStringToDate(fechaFin);
+        List<ReporteDTO> reporteDTOS = new ArrayList<>();
+        List<Movimiento> movimientos = movimientoRepository.findByCuentaNumeroAndFechaBetween(numero, inicioFecha, finFecha);
+        if(!movimientos.isEmpty()){
+            for (Movimiento movimiento : movimientos) {
+                reporteDTOS.add(MovimientoMapper.toReporteDTO(movimiento));
+            }
+        }else {
+            throw new MovimientoNotFoundException("No se encontro el movimientos con el numero de cuenta : "
+                    + numero +" en el rango de fechas: " + fechaInicio + " - " + fechaFin );
+        }
+        return reporteDTOS;
     }
 
     public double retirar(String valor, double saldo) {
@@ -134,4 +159,6 @@ public class MovimientoServiceImpl implements IMoviminetoServiceImpl {
             throw new MovimientoNotFoundException("El valor tiene que ser positivo para depositar");
         }
     }
+
+
 }

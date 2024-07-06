@@ -4,6 +4,7 @@ import com.example.customers.dto.CuentaDTO;
 import com.example.customers.dto.MovimientoDTO;
 import com.example.customers.entity.Movimiento;
 import com.example.customers.exception.CuentaNotFoundException;
+import com.example.customers.exception.MovimientoNotFoundException;
 import com.example.customers.mapper.MovimientoMapper;
 import com.example.customers.service.MovimientoServiceImpl;
 import jakarta.transaction.Transactional;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/movimientos")
+@RequestMapping("api/movimientos")
 public class MovimientoController {
 
     @Autowired
@@ -59,7 +60,17 @@ public class MovimientoController {
         try {
             movimientoService.delete(id);
             return new ResponseEntity<>("Movimiento eliminado correctamente", HttpStatus.OK);
-        } catch (CuentaNotFoundException e) {
+        } catch (MovimientoNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/cuenta")
+    public ResponseEntity<?> getMovimientoByNumberCuenta(@RequestParam String numero) {
+        try {
+        List<MovimientoDTO> movimientosDTO = movimientoService.findByCuentaNumero(numero);
+        return new ResponseEntity<>(movimientosDTO, HttpStatus.OK);
+        } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }

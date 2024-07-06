@@ -5,6 +5,7 @@ import com.example.customers.entity.Cliente;
 import com.example.customers.exception.ClienteNotFoundException;
 import com.example.customers.repository.ClienteRepository;
 import com.example.customers.service.ClienteServiceImpl;
+import com.example.customers.validators.ClienteValidatorImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,11 +15,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/clientes")
+@RequestMapping("api/clientes")
 public class ClienteController {
 
     @Autowired
-    private ClienteRepository clienteRepository;
+    private ClienteValidatorImpl clienteValidator;
 
     @Autowired
     private ClienteServiceImpl clienteService;
@@ -38,6 +39,7 @@ public class ClienteController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createCliente(@RequestBody Cliente cliente) {
         try {
+            clienteValidator.validador(cliente);
             clienteService.save(cliente);
             return new ResponseEntity<>(cliente, HttpStatus.CREATED);
         } catch (Exception e) {
