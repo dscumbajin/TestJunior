@@ -1,17 +1,11 @@
 package com.example.customers.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.util.Date;
-
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReporteDTO {
+public class ReporteDto {
     public String fecha;
     public String cliente;
     public String numeroCuenta;

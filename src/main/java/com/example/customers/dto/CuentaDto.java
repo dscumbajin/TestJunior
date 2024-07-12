@@ -1,18 +1,15 @@
 package com.example.customers.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CuentaDTO {
+public class CuentaDto {
     private String numero;
     private String tipoCuenta;
     private double saldoInicial;
     private boolean estado;
-    private String nombre;
+    private double limiteDiario;
+    private String cliente;
 }

@@ -1,24 +1,18 @@
 package com.example.customers.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.util.List;
-
-@Getter
-@Setter
-public class ClienteDTO {
+@Data
+@NoArgsConstructor
+public class ClienteDto {
 
     private String nombre;
     private String direccion;
     private String telefono;
     private String contrasena;
     private boolean estado;
-    //private List<Long> cuentaIds;
 
-    public ClienteDTO(String nombre, String direccion, String telefono, String contrasena, boolean estado) {
+    public ClienteDto(String nombre, String direccion, String telefono, String contrasena, boolean estado) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.telefono = telefono;

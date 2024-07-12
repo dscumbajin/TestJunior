@@ -1,27 +1,27 @@
 package com.example.customers.mapper;
 
-import com.example.customers.dto.MovimientoDTO;
-import com.example.customers.dto.ReporteDTO;
+import com.example.customers.dto.MovimientoDto;
+import com.example.customers.dto.ReporteDto;
 import com.example.customers.entity.Movimiento;
 import com.example.customers.util.Conversion;
 
 public class MovimientoMapper {
 
-    public static MovimientoDTO toMovimientoDTO(Movimiento movimiento) {
-        return new MovimientoDTO(movimiento.getCuenta().getNumero(), movimiento.getCuenta().getTipoCuenta(),movimiento.getSaldo(),
+    public static MovimientoDto toMovimientoDTO(Movimiento movimiento) {
+        return new MovimientoDto(movimiento.getCuenta().getNumero(), movimiento.getCuenta().getTipoCuenta(),movimiento.getSaldo(),
                 movimiento.getCuenta().isEstado(), movimiento.getTipo()+" de "+movimiento.getValor());
     }
-    public static Movimiento toMovimiento(MovimientoDTO movimientoDTO) {
+    public static Movimiento toMovimiento(MovimientoDto movimientoDto) {
         Movimiento movimiento = new Movimiento();
-        movimiento.setTipo(movimientoDTO.getTipo());
-        movimiento.setValor(movimientoDTO.getValor());
-        movimiento.setSaldo(movimientoDTO.getSaldo());
+        movimiento.setTipo(movimientoDto.getTipoMovimiento());
+        movimiento.setValor(Double.parseDouble(movimientoDto.getValor()));
+        movimiento.setSaldo(movimientoDto.getSaldo());
         return movimiento;
     }
 
-    public static ReporteDTO toReporteDTO(Movimiento movimiento) {
-        return new ReporteDTO(Conversion.convertDateToString(movimiento.getFecha()),movimiento.getCuenta().getCliente().getNombre(),movimiento.getCuenta().getNumero(),
+    public static ReporteDto toReporteDTO(Movimiento movimiento) {
+        return new ReporteDto(Conversion.convertDateToString(movimiento.getFecha()),movimiento.getCuenta().getCliente().getNombre(),movimiento.getCuenta().getNumero(),
                 movimiento.getCuenta().getTipoCuenta(), movimiento.getCuenta().getSaldoInicial(),
-                movimiento.getCuenta().isEstado(), movimiento.getValor(), movimiento.getSaldo());
+                movimiento.getCuenta().isEstado(), movimiento.getValor().toString(), movimiento.getSaldo());
     }
 }

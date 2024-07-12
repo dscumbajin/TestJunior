@@ -2,17 +2,15 @@ package com.example.customers.validators;
 
 import com.example.customers.entity.Cliente;
 import com.example.customers.exception.ApiUnprocessableEntity;
-import com.example.customers.exception.ClienteYaExisteException;
 import com.example.customers.repository.ClienteRepository;
-import com.example.customers.service.ClienteServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class ClienteValidatorImpl implements IClienteValidator{
 
-    @Autowired
-    private ClienteRepository clienteService;
+    private final ClienteRepository clienteService;
 
     @Override
     public void validador(Cliente cliente) throws ApiUnprocessableEntity {

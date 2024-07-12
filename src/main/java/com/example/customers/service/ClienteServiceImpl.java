@@ -1,13 +1,12 @@
 package com.example.customers.service;
 
-import com.example.customers.dto.ClienteDTO;
+import com.example.customers.dto.ClienteDto;
 import com.example.customers.entity.Cliente;
 import com.example.customers.exception.ClienteNotFoundException;
 import com.example.customers.exception.ClienteYaExisteException;
 import com.example.customers.mapper.ClienteMapper;
 import com.example.customers.repository.ClienteRepository;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,11 +14,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@Log4j2
+@RequiredArgsConstructor
 public class ClienteServiceImpl implements IClienteServiceImpl{
 
-    @Autowired
-    private ClienteRepository clienteRepository;
+    private final ClienteRepository clienteRepository;
 
     @Override
     public boolean save(Cliente cliente) {
@@ -64,7 +62,7 @@ public class ClienteServiceImpl implements IClienteServiceImpl{
     }
 
     @Override
-    public List<ClienteDTO> clienteDTOs() {
+    public List<ClienteDto> clienteDTOs() {
         List<Cliente> clientes = clienteRepository.findAll();
         return clientes.stream()
                 .map(ClienteMapper::toClienteDTO)
@@ -72,7 +70,7 @@ public class ClienteServiceImpl implements IClienteServiceImpl{
     }
 
     @Override
-    public ClienteDTO findById(Long id) {
+    public ClienteDto findById(Long id) {
         Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new ClienteNotFoundException("Cliente no encontrado con ID: " + id));
         return ClienteMapper.toClienteDTO(cliente);

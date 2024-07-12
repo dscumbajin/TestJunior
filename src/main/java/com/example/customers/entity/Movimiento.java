@@ -27,7 +27,7 @@ public class Movimiento {
     private String tipo;
 
     @Column(name = "valor", nullable = false)
-    private String valor;
+    private Double valor;
 
     @Column(name = "saldo", nullable = false)
     private Double saldo;

@@ -1,19 +1,18 @@
 package com.example.customers.service;
 
-import com.example.customers.dto.MovimientoDTO;
-import com.example.customers.dto.ReporteDTO;
+import com.example.customers.dto.MovimientoDto;
+import com.example.customers.dto.ReporteDto;
 import com.example.customers.entity.Movimiento;
 
-import java.util.Date;
 import java.util.List;
 
 public interface IMoviminetoServiceImpl {
 
-    public Movimiento save(MovimientoDTO movimientoDTO);
-    public Movimiento update(Long id, MovimientoDTO movimientoDTO);
+    public Movimiento save(MovimientoDto movimientoDto);
+    public Movimiento update(Long id, MovimientoDto movimientoDto);
     public boolean delete(Long id);
-    public List<MovimientoDTO> movimientoDtos();
-    public MovimientoDTO findById(Long id);
-    public List<MovimientoDTO> findByCuentaNumero(String numero);
-    public List<ReporteDTO> findByCuentaNumeroAndFechaBetween(String numero, String fechaInicio, String fechaFin);
+    public List<MovimientoDto> movimientoDtos();
+    public MovimientoDto findById(Long id);
+    public List<MovimientoDto> findByCuentaNumero(String numero);
+    public List<ReporteDto> findByCuentaNumeroAndFechaBetween(String numero, String fechaInicio, String fechaFin);
 }

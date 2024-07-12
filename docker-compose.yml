@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  mysqlCustomers:
+    image: mysql:8.0
+    container_name: mysqlCustomers
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: restspring
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user_password
+    ports:
+      - "3308:3306"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/BaseDatos.sql
+      - mysql-data:/var/lib/mysql
+    networks:
+      - springboot-network
+
+  customers-app:
+    image: customers-app
+    container_name: customers-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      SPRING_APPLICATION_NAME: customers
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqlCustomers:3306/restspring
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root_password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysqlCustomers
+    networks:
+      - springboot-network
+
+networks:
+  springboot-network:
+    driver: bridge
+
+volumes:
+  mysql-data:

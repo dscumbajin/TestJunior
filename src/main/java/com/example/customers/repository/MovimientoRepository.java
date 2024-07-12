@@ -16,5 +16,4 @@ public interface MovimientoRepository extends JpaRepository<Movimiento, Serializ
     public List<Movimiento> findByCuentaNumeroOrderByFechaDesc(String numero);
     public List<Movimiento> findByCuentaNumero(String numero);
     public List<Movimiento> findByCuentaNumeroAndFechaBetween(String numero, Date fechaInicio, Date fechaFin);
-
 }

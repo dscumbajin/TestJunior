@@ -34,6 +34,9 @@ public class Cuenta {
     @Column(name = "estado", columnDefinition = "boolean default true")
     private boolean estado;
 
+    @Column(name = "limiteDiario", nullable = false, columnDefinition = "DOUBLE DEFAULT 1000.0")
+    private double limiteDiario;
+
     @ManyToOne
     @JoinColumn(name = "clienteId", nullable = false)
     private Cliente cliente;

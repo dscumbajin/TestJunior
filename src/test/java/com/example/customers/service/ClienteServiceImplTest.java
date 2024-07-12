@@ -1,6 +1,6 @@
 package com.example.customers.service;
 
-import com.example.customers.dto.ClienteDTO;
+import com.example.customers.dto.ClienteDto;
 import com.example.customers.entity.Cliente;
 import com.example.customers.entity.Cuenta;
 import com.example.customers.exception.ClienteNotFoundException;
@@ -58,10 +58,10 @@ class ClienteServiceImplTest {
         clients.add(cliente1);
         clients.add(cliente2);
         when(clienteRepository.findAll()).thenReturn(clients);
-        List<ClienteDTO> clienteDTOs = clienteService.clienteDTOs();
-        assertEquals(2, clienteDTOs.size());
-        assertEquals(cliente1.getNombre(), clienteDTOs.get(0).getNombre());
-        assertEquals(cliente2.getNombre(), clienteDTOs.get(1).getNombre());
+        List<ClienteDto> clienteDtos = clienteService.clienteDTOs();
+        assertEquals(2, clienteDtos.size());
+        assertEquals(cliente1.getNombre(), clienteDtos.get(0).getNombre());
+        assertEquals(cliente2.getNombre(), clienteDtos.get(1).getNombre());
     }
 
     @Test
@@ -70,7 +70,7 @@ class ClienteServiceImplTest {
         Long idCliente = 1L;
         Cliente cliente = new Cliente("test",true, cuentas);
         when(clienteRepository.findById(idCliente)).thenReturn(Optional.of(cliente));
-        ClienteDTO clienteDTO = clienteService.findById(idCliente);
+        ClienteDto clienteDTO = clienteService.findById(idCliente);
         assertEquals(cliente.getNombre(), clienteDTO.getNombre());
     }
 

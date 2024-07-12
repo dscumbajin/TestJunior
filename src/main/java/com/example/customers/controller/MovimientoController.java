@@ -1,14 +1,11 @@
 package com.example.customers.controller;
 
-import com.example.customers.dto.CuentaDTO;
-import com.example.customers.dto.MovimientoDTO;
-import com.example.customers.entity.Movimiento;
-import com.example.customers.exception.CuentaNotFoundException;
+import com.example.customers.dto.MovimientoDto;
 import com.example.customers.exception.MovimientoNotFoundException;
 import com.example.customers.mapper.MovimientoMapper;
 import com.example.customers.service.MovimientoServiceImpl;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,27 +15,27 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/movimientos")
+@RequiredArgsConstructor
 public class MovimientoController {
 
-    @Autowired
-    private MovimientoServiceImpl movimientoService;
+    private final MovimientoServiceImpl movimientoService;
 
     @GetMapping
-    public ResponseEntity<List<MovimientoDTO>> getAllMovimientos() {
+    public ResponseEntity<List<MovimientoDto>> getAllMovimientos() {
         return ResponseEntity.ok(movimientoService.movimientoDtos());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MovimientoDTO>getMovimientoById(@PathVariable Long id) {
-        MovimientoDTO movimientoDTO = movimientoService.findById(id);
-        return new ResponseEntity<>(movimientoDTO, HttpStatus.OK);
+    public ResponseEntity<MovimientoDto>getMovimientoById(@PathVariable Long id) {
+        MovimientoDto movimientoDto = movimientoService.findById(id);
+        return new ResponseEntity<>(movimientoDto, HttpStatus.OK);
     }
 
     @Transactional
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createMovimiento(@RequestBody MovimientoDTO movimientoDTO) {
+    public ResponseEntity<?> createMovimiento(@RequestBody MovimientoDto movimientoDto) {
         try {
-            return new ResponseEntity<>( MovimientoMapper.toMovimientoDTO(movimientoService.save(movimientoDTO)),
+            return new ResponseEntity<>( MovimientoMapper.toMovimientoDTO(movimientoService.save(movimientoDto)),
                     HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
@@ -47,9 +44,9 @@ public class MovimientoController {
 
     @Transactional
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateMovimiento(@PathVariable Long id, @RequestBody MovimientoDTO movimientoDTO) {
+    public ResponseEntity<?> updateMovimiento(@PathVariable Long id, @RequestBody MovimientoDto movimientoDto) {
         try {
-            return new ResponseEntity<>(MovimientoMapper.toMovimientoDTO(movimientoService.update(id, movimientoDTO)), HttpStatus.CREATED);
+            return new ResponseEntity<>(MovimientoMapper.toMovimientoDTO(movimientoService.update(id, movimientoDto)), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
@@ -68,7 +65,7 @@ public class MovimientoController {
     @GetMapping("/cuenta")
     public ResponseEntity<?> getMovimientoByNumberCuenta(@RequestParam String numero) {
         try {
-        List<MovimientoDTO> movimientosDTO = movimientoService.findByCuentaNumero(numero);
+        List<MovimientoDto> movimientosDTO = movimientoService.findByCuentaNumero(numero);
         return new ResponseEntity<>(movimientosDTO, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
