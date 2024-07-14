@@ -4,11 +4,11 @@ import com.example.customers.dto.MovimientoDto;
 import com.example.customers.exception.MovimientoNotFoundException;
 import com.example.customers.mapper.MovimientoMapper;
 import com.example.customers.service.MovimientoServiceImpl;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,7 +30,6 @@ public class MovimientoController {
         MovimientoDto movimientoDto = movimientoService.findById(id);
         return new ResponseEntity<>(movimientoDto, HttpStatus.OK);
     }
-
     @Transactional
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createMovimiento(@RequestBody MovimientoDto movimientoDto) {
@@ -41,7 +40,6 @@ public class MovimientoController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
-
     @Transactional
     @PutMapping("/{id}")
     public ResponseEntity<?> updateMovimiento(@PathVariable Long id, @RequestBody MovimientoDto movimientoDto) {
@@ -51,7 +49,7 @@ public class MovimientoController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
-
+    @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteMovimiento(@PathVariable Long id) {
         try {

@@ -4,7 +4,10 @@ import com.example.customers.entity.Cliente;
 import com.example.customers.exception.ApiUnprocessableEntity;
 import com.example.customers.repository.ClienteRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,8 +25,8 @@ public class ClienteValidatorImpl implements IClienteValidator{
         }
 
         if(!cliente.getIdentificacion().isEmpty() ){
-            Cliente buscado = clienteService.findByIdentificacion(cliente.getIdentificacion());
-            if (buscado != null ){
+            Optional<Cliente> buscado = clienteService.findByIdentificacion(cliente.getIdentificacion());
+            if (!buscado.isEmpty() ){
                 throw new ApiUnprocessableEntity("La identificacion debe ser unica");
             }
         }

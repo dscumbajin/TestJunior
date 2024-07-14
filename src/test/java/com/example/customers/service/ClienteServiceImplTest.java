@@ -42,7 +42,7 @@ class ClienteServiceImplTest {
     public void saveExistingCliente() {
         List<Cuenta> cuentas = new ArrayList<>();
         Cliente cliente = new Cliente("test",true, cuentas);
-        when(clienteRepository.findByIdentificacion(cliente.getIdentificacion())).thenReturn(cliente);
+        when(clienteRepository.findByIdentificacion(cliente.getIdentificacion()).get()).thenReturn(cliente);
         ClienteYaExisteException exception = assertThrows(ClienteYaExisteException.class,
                 () -> clienteService.save(cliente));
         assertEquals("La identificación debe ser única", exception.getMessage());

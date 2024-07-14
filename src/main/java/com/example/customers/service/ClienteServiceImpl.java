@@ -7,6 +7,7 @@ import com.example.customers.exception.ClienteYaExisteException;
 import com.example.customers.mapper.ClienteMapper;
 import com.example.customers.repository.ClienteRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class ClienteServiceImpl implements IClienteServiceImpl{
 
     @Override
     public boolean save(Cliente cliente) {
-        Cliente clientReq = clienteRepository.findByIdentificacion(cliente.getIdentificacion());
+        Optional<Cliente> clientReq = clienteRepository.findByIdentificacion(cliente.getIdentificacion());
         if (clientReq != null) {
             throw new ClienteYaExisteException("La identificación debe ser única");
         } else {

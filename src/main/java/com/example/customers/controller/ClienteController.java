@@ -34,7 +34,7 @@ public class ClienteController {
         ClienteDto clienteDTO = clienteService.findById(id);
         return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
     }
-
+    @Transactional
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createCliente(@RequestBody Cliente cliente) {
         try {
@@ -45,7 +45,7 @@ public class ClienteController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
-
+    @Transactional
     @PutMapping("/{id}")
     public ResponseEntity<?> updateCliente(@PathVariable Long id, @RequestBody Cliente cliente) {
 

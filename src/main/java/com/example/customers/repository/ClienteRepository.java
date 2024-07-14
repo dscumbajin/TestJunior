@@ -5,10 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Serializable> {
 
-    public Cliente findByIdentificacion(String identificacion);
-    public Cliente findByNombre(String nombre);
+    Optional<Cliente> findByIdentificacion(String identificacion);
+    Cliente findByNombre(String nombre);
 }

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class CuentaController {
         return new ResponseEntity<>(cuentaDTO, HttpStatus.OK);
     }
 
-
+    @Transactional
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createCuenta(@RequestBody CuentaDto cuentaDTO) {
         try {
@@ -38,7 +39,7 @@ public class CuentaController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
-
+    @Transactional
     @PutMapping("/{id}")
     public ResponseEntity<?> updateCuenta(@PathVariable Long id, @RequestBody CuentaDto cuentaDTO) {
         try {
@@ -48,7 +49,7 @@ public class CuentaController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
-
+    @Transactional
     @PutMapping("/cuenta")
     public ResponseEntity<?> updatelimiteDiario(@RequestBody CuentaDto cuentaDTO) {
         try {
@@ -58,7 +59,7 @@ public class CuentaController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
-
+    @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCuenta(@PathVariable Long id) {
         try {
